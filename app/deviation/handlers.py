@@ -60,7 +60,13 @@ def create_update_deviation():
     lat = request.POST.get('latitude', None)
     lng = request.POST.get('longitude', None)
     if lat is not None and lng is not None:
-        deviation.location = [lat, lng]
+        try:
+            lat, lng = float(lat), float(lng)
+        except ValueError:
+            response.status = 400
+            return {'message': 'latitude and longitude must be WGS84.'}
+        logger.info("lat and lng %s %s" % (lat, lng))
+        deviation.location = [float(lat), float(lng)]
 
     deviation.scope = request.POST.get('line', None)
     deviation.vehicle = request.POST.get('vehicle', None)
@@ -72,9 +78,7 @@ def create_update_deviation():
     except Exception, e:
         logger.info('Failed to create deviation %s (%s)' % (e, type(e)))
         response.status = 400
-        return {
-            'message': 'Could not create deviation.'
-        }
+        return {'message': 'Could not create deviation.'}
     return {
         'id': str(deviation.id)
     }
