@@ -52,7 +52,7 @@ def get_deviation(deviation_id):
             'latitude': '18.000',
             'longitude': '58.000',
             'line_number': '4',
-            'created_at': str(datetime.datetime.utcnow())
+            'created_at': str(datetime.utcnow())
         }
     }
 
