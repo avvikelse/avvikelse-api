@@ -7,7 +7,6 @@ from mongoengine.fields import StringField, GeoPointField
 class Deviation(Document):
     comment = StringField()
     location = GeoPointField()
-    scope = StringField()
     transport = StringField()
     source = StringField()
     line = StringField()
