@@ -63,12 +63,8 @@ def get_deviation(deviation_id):
         }
     }
 
-@deviation_app.route('/:deviation_id/', method='PUT')
-def update_deviation(deviation_id):
-    abort(501)
-
 @deviation_app.route('/', method='POST')
-def create_update_deviation():
+def create_deviation():
     deviation = Deviation()
     deviation.comment = request.POST.get('comment', None)
 
