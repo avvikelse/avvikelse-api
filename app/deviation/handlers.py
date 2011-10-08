@@ -30,7 +30,7 @@ def status():
         except ValueError:
             response.status = 400
             return {'message': 'latitude and longitude must be WGS84.'}
-        deviation_list.filter(location__within_distance=[(latitude, longitude), int(distance)])
+        deviation_list.filter(location__within_distance=[(latitude, longitude), float(distance)])
 
     time_limit = datetime.utcnow() - timedelta(minutes=5)
     deviation_list.filter(created_at__gte=time_limit)
