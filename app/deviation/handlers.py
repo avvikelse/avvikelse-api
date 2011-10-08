@@ -10,18 +10,27 @@ deviation_app = Bottle()
 
 @deviation_app.route('/status/')
 def status():
-    scope = request.GET.get('scope', None)
+    line = request.GET.get('line', None)
+    vehicle = request.GET.get('vehicle', None)
     route_type = request.GET.get('route_type', None)
     latitude = request.GET.get('latitude', None)
     longitude = request.GET.get('longitude', None)
+    distance = request.GET.get('distance', 5)
 
     deviation_list = Deviation.objects
-    if scope:
-        deviation_list.filter(scope=scope)
+    if line:
+        deviation_list.filter(line=line)
+    if vehicle:
+        deviation_list.filter(vehicle=vehicle)
     if route_type:
         deviation_list.filter(route_type=route_type)
     if latitude is not None and longitude is not None:
-        pass
+        try:
+            latitude, longitude = float(latitude), float(longitude)
+        except ValueError:
+            response.status = 400
+            return {'message': 'latitude and longitude must be WGS84.'}
+        deviation_list.filter(location__within_distance=[(latitude, longitude), int(distance)])
 
     time_limit = datetime.utcnow() - timedelta(minutes=5)
     deviation_list.filter(created_at__gte=time_limit)
@@ -36,8 +45,12 @@ def status():
 
 @deviation_app.route('/:deviation_id/')
 def get_deviation(deviation_id):
+    try:
+        deviation = Deviation.objects.get(id=deviation_id)
+    except Exception, e:
+        response.status = 404
+        return {'message': 'Unknown deviation.'}
 
-    deviation = Deviation.objects.get(id=deviation_id)
     return {
         'deviation': {
             'comment': deviation.comment,
