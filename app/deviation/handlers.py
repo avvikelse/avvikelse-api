@@ -8,14 +8,6 @@ logger = logging.getLogger(__name__)
 
 deviation_app = Bottle()
 
-def to_deviation_dict(deviation):
-    return {
-        'comment': deviation.details,
-        'scope': deviation.scope,
-        'route_type': deviation.route_type,
-        'created_at': deviation.created_at.isoformat()
-    }
-
 @deviation_app.route('/status/')
 def status():
     scope = request.GET.get('scope', None)
