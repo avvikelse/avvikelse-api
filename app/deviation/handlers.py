@@ -1,16 +1,47 @@
 # -*- coding: UTF-8 -*-
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 from bottle import Bottle, abort, request, response
 from deviation.models import Deviation
+from mongoengine.queryset import QuerySet
 
 logger = logging.getLogger(__name__)
 
 deviation_app = Bottle()
 
+def to_deviation_dict(deviation):
+    return {
+        'title': deviation.title,
+        'detail': deviation.details,
+        'scope': deviation.scope,
+        'route_type': deviation.route_type,
+        'created_at': deviation.created_at.isoformat()
+    }
+
 @deviation_app.route('/query/')
 def query():
-    abort(501)
+    scope = request.GET.get('scope', None)
+    route_type = request.GET.get('route_type', None)
+    latitude = request.GET.get('latitude', None)
+    longitude = request.GET.get('longitude', None)
+
+    deviation_list = Deviation.objects
+    if scope:
+        deviation_list.filter(scope=scope)
+    if route_type:
+        deviation_list.filter(route_type=route_type)
+    if latitude is not None and longitude is not None:
+        pass
+
+    time_limit = datetime.utcnow() - timedelta(minutes=5)
+    deviation_list.filter(created_at__gte=time_limit)
+
+    deviation_list.limit(20)
+    deviation_list.order_by('-created_at')
+
+    return {
+        'deviations': [to_deviation_dict(d) for d in deviation_list]
+    }
 
 @deviation_app.route('/:deviation_id/')
 def get_deviation(deviation_id):
