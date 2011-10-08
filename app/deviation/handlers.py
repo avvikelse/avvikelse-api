@@ -9,9 +9,10 @@ def query():
     abort(501)
 
 @deviation_app.route('/:deviation_id/')
-def get_deviation( deviation_id):
+def get_deviation(deviation_id):
     return {
         'deviation': {
+            'id': deviation_id,
             'title': 'Stopp vid TCE',
             'description': None,
             'latitude': '18.000',
@@ -21,11 +22,12 @@ def get_deviation( deviation_id):
         }
     }
 
+@deviation_app.route('/:deviation_id/', method='PUT')
+def update_deviation(deviation_id):
+    abort(501)
+
 @deviation_app.route('/', method='POST')
 def create_update_deviation():
     abort(501)
 
-@deviation_app.route('/', method='PUT')
-def update_deviation():
-    abort(501)
 
