@@ -10,8 +10,7 @@ deviation_app = Bottle()
 
 def to_deviation_dict(deviation):
     return {
-        'title': deviation.title,
-        'detail': deviation.details,
+        'comment': deviation.details,
         'scope': deviation.scope,
         'route_type': deviation.route_type,
         'created_at': deviation.created_at.isoformat()
@@ -39,7 +38,8 @@ def status():
     deviation_list.order_by('-created_at')
 
     return {
-        'deviations': [to_deviation_dict(d) for d in deviation_list]
+        'affects': len(deviation_list),
+        'comments': [d.comment for d in deviation_list if d.comment is not None]
     }
 
 @deviation_app.route('/:deviation_id/')
@@ -63,8 +63,7 @@ def update_deviation(deviation_id):
 @deviation_app.route('/', method='POST')
 def create_update_deviation():
     deviation = Deviation()
-    deviation.title = request.POST.get('title', None)
-    deviation.details = request.POST.get('details', None)
+    deviation.comment = request.POST.get('comment', None)
 
     lat = request.POST.get('latitude', None)
     lng = request.POST.get('longitude', None)

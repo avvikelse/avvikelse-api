@@ -5,8 +5,7 @@ from mongoengine.document import Document
 from mongoengine.fields import StringField, GeoPointField
 
 class Deviation(Document):
-    title = StringField()
-    details = StringField()
+    comment = StringField()
     location = GeoPointField()
     scope = StringField()
     route_type = StringField()
