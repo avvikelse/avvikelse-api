@@ -42,8 +42,8 @@ def get_deviation(deviation_id):
         'deviation': {
             'comment': deviation.comment,
             'created_at': deviation.created_at.isoformat(),
-            'latitude': '18.000',
-            'longitude': '58.000',
+            'latitude': deviation.latitude,
+            'longitude': deviation.longitude,
             'line': deviation.line,
             'vehicle': deviation.vehicle,
         }
@@ -67,7 +67,9 @@ def create_update_deviation():
             response.status = 400
             return {'message': 'latitude and longitude must be WGS84.'}
         logger.info("lat and lng %s %s" % (lat, lng))
-        deviation.location = [float(lat), float(lng)]
+        deviation.latitude = str(lat)
+        deviation.longitude = str(lng)
+        deviation.location = [lat, lng]
 
     deviation.line = request.POST.get('line', None)
     deviation.vehicle = request.POST.get('vehicle', None)
