@@ -14,8 +14,6 @@ connect('deviations')
 app = Bottle()
 app.mount(deviation_app, '/v1/deviation')
 
-
-
 @app.route('/')
 def root():
     return "Hello TravelHack."
