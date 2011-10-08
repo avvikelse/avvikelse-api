@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+
+    ServerName api.av.vikel.se
+
+    WSGIDaemonProcess apiavvikelse user=www-data group=www-data processes=1 threads=5
+    WSGIScriptAlias / /opt/avvikelse-api/app/app.wsgi
+
+    <Directory /opt/avvikelse-api/app/app>
+        WSGIProcessGroup apiavvikelse
+        WSGIApplicationGroup %{GLOBAL}
+        Order deny,allow
+        Allow from all
+    </Directory>
+
+    Alias /static /opt/avvikelse-api/static
+    <Location "/static">
+        SetHandler None
+    </Location>
+
+</VirtualHost>
