@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import logging
 from bottle import Bottle, abort, request, response
 from deviation.models import Deviation
-from mongoengine.queryset import QuerySet
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +17,7 @@ def to_deviation_dict(deviation):
         'created_at': deviation.created_at.isoformat()
     }
 
-@deviation_app.route('/query/')
+@deviation_app.route('/')
 def query():
     scope = request.GET.get('scope', None)
     route_type = request.GET.get('route_type', None)
