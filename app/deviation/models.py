@@ -11,4 +11,4 @@ class Deviation(Document):
     scope = StringField()
     route_type = StringField()
     source = StringField()
-    created_at = DateTimeField(default=datetime.datetime.now)
+    created_at = DateTimeField(default=datetime.datetime.utcnow())
