@@ -12,7 +12,7 @@ debug(app_settings.DEBUG)
 connect('deviations')
 
 app = Bottle()
-app.mount(deviation_app, '/v1/deviation')
+app.mount(deviation_app, '/v1/deviations')
 
 @app.route('/')
 def root():
