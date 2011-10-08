@@ -12,7 +12,7 @@ deviation_app = Bottle()
 def status():
     line = request.GET.get('line', None)
     vehicle = request.GET.get('vehicle', None)
-    route_type = request.GET.get('route_type', None)
+    transport = request.GET.get('transport', None)
     latitude = request.GET.get('latitude', None)
     longitude = request.GET.get('longitude', None)
     distance = request.GET.get('distance', 5)
@@ -22,15 +22,16 @@ def status():
         deviation_list.filter(line=line)
     if vehicle:
         deviation_list.filter(vehicle=vehicle)
-    if route_type:
-        deviation_list.filter(route_type=route_type)
+    if transport:
+        deviation_list.filter(transport=transport)
     if latitude is not None and longitude is not None:
         try:
             latitude, longitude = float(latitude), float(longitude)
         except ValueError:
             response.status = 400
             return {'message': 'latitude and longitude must be WGS84.'}
-        deviation_list.filter(location__within_distance=[(latitude, longitude), float(distance)])
+        distance = float(distance)/6378 #km
+        deviation_list.filter(location__within_distance=[(latitude, longitude), distance])
 
     time_limit = datetime.utcnow() - timedelta(minutes=5)
     deviation_list.filter(created_at__gte=time_limit)
@@ -86,11 +87,12 @@ def create_update_deviation():
 
     deviation.line = request.POST.get('line', None)
     deviation.vehicle = request.POST.get('vehicle', None)
-    deviation.route_type = request.POST.get('transport', None)
+    deviation.transport = request.POST.get('transport', None)
     deviation.source = request.POST.get('source', "crowd")
 
     try:
         deviation.save()
+        deviation.ensure_index({location: '2d'}, {min:-180, max:180})
     except Exception, e:
         logger.info('Failed to create deviation %s (%s)' % (e, type(e)))
         response.status = 400
@@ -98,8 +100,3 @@ def create_update_deviation():
     return {
         'id': str(deviation.id)
     }
-
-
-
-
-
