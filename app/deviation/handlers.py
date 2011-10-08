@@ -36,15 +36,16 @@ def status():
 
 @deviation_app.route('/:deviation_id/')
 def get_deviation(deviation_id):
+
+    deviation = Deviation.objects.get(id=deviation_id)
     return {
         'deviation': {
-            'id': deviation_id,
-            'title': 'Stopp vid TCE',
-            'description': None,
+            'comment': deviation.comment,
+            'created_at': deviation.created_at.isoformat(),
             'latitude': '18.000',
             'longitude': '58.000',
-            'line_number': '4',
-            'created_at': str(datetime.utcnow())
+            'line': deviation.line,
+            'vehicle': deviation.vehicle,
         }
     }
 
@@ -68,7 +69,7 @@ def create_update_deviation():
         logger.info("lat and lng %s %s" % (lat, lng))
         deviation.location = [float(lat), float(lng)]
 
-    deviation.scope = request.POST.get('line', None)
+    deviation.line = request.POST.get('line', None)
     deviation.vehicle = request.POST.get('vehicle', None)
     deviation.route_type = request.POST.get('transport', None)
     deviation.source = request.POST.get('source', "crowd")
