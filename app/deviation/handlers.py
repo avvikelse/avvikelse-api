@@ -17,8 +17,8 @@ def to_deviation_dict(deviation):
         'created_at': deviation.created_at.isoformat()
     }
 
-@deviation_app.route('/')
-def query():
+@deviation_app.route('/status/')
+def status():
     scope = request.GET.get('scope', None)
     route_type = request.GET.get('route_type', None)
     latitude = request.GET.get('latitude', None)
