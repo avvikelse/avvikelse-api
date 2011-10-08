@@ -9,9 +9,14 @@ def query(version):
     abort(501)
 
 @deviation_app.route('/v:version/:deviation_id')
-def query(version, deviation_id):
+def get_deviation(version, deviation_id):
     abort(501)
 
 @deviation_app.route('/v:version/', method='POST')
-def query(version):
+def create_update_deviation(version):
     abort(501)
+
+@deviation_app.route('/v:version/', method='PUT')
+def update_deviation(version):
+    abort(501)
+
