@@ -4,12 +4,12 @@ from bottle import Bottle, abort
 
 deviation_app = Bottle()
 
-@deviation_app.route('/v:version/query/')
-def query(version):
+@deviation_app.route('/query/')
+def query():
     abort(501)
 
-@deviation_app.route('/v:version/:deviation_id/')
-def get_deviation(version, deviation_id):
+@deviation_app.route('/:deviation_id/')
+def get_deviation( deviation_id):
     return {
         'deviation': {
             'title': 'Stopp vid TCE',
@@ -21,11 +21,11 @@ def get_deviation(version, deviation_id):
         }
     }
 
-@deviation_app.route('/v:version/', method='POST')
-def create_update_deviation(version):
+@deviation_app.route('/', method='POST')
+def create_update_deviation():
     abort(501)
 
-@deviation_app.route('/v:version/', method='PUT')
-def update_deviation(version):
+@deviation_app.route('/', method='PUT')
+def update_deviation():
     abort(501)
 

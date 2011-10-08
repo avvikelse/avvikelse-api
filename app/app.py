@@ -10,7 +10,7 @@ logging.basicConfig(level=app_settings.DEBUG, filename=app_settings.LOG_FILENAME
 debug(app_settings.DEBUG)
 
 app = Bottle()
-app.mount(deviation_app, '/deviation')
+app.mount(deviation_app, '/v1/deviation')
 
 @app.route('/')
 def root():
