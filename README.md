@@ -3,6 +3,8 @@
 ## Requirements
 
 * bottle - 0.9.6
+* pymongo - 1.1
+* mongoengine - 0.5
 
 ## Dev server
 
