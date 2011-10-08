@@ -62,8 +62,9 @@ def create_update_deviation():
     if lat is not None and lng is not None:
         deviation.location = [lat, lng]
 
-    deviation.scope = request.POST.get('scope', None)
-    deviation.route_type = request.POST.get('route_type', None)
+    deviation.scope = request.POST.get('line', None)
+    deviation.vehicle = request.POST.get('vehicle', None)
+    deviation.route_type = request.POST.get('transport', None)
     deviation.source = request.POST.get('source', "crowd")
 
     try:
