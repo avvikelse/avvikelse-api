@@ -2,7 +2,7 @@
 
 ## Requirements
 
-* bottle - 0.9.6
+* bottle - latest from source
 * pymongo - 1.1
 * mongoengine - 0.5
 
