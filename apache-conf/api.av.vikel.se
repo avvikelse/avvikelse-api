@@ -2,6 +2,9 @@
 
     ServerName api.av.vikel.se
 
+    ErrorLog /var/log/apache2/api.av.vikel.se-error.log
+    CustomLog /var/log/apache2/api.av.vikel.se-access.log combined
+
     WSGIDaemonProcess apiavvikelse user=www-data group=www-data processes=1 threads=5
     WSGIScriptAlias / /opt/avvikelse-api/app/app.wsgi
 
