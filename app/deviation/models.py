@@ -15,3 +15,6 @@ class Deviation(Document):
     vehicle = StringField()
     created_at = DateTimeField()
 
+    meta = {
+        'indexes': ['transport', 'line', 'vehicle']
+    }
