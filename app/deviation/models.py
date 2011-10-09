@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-import datetime
 from mongoengine import DateTimeField
 from mongoengine.document import Document
 from mongoengine.fields import StringField, GeoPointField
@@ -10,7 +9,9 @@ class Deviation(Document):
     latitude = StringField()
     longitude = StringField()
     transport = StringField()
+    stop_point = StringField()
     source = StringField()
     line = StringField()
     vehicle = StringField()
-    created_at = DateTimeField(default=datetime.datetime.utcnow())
+    created_at = DateTimeField()
+
