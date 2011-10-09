@@ -7,9 +7,19 @@ from deviation.handlers import deviation_app
 import settings as app_settings
 
 logging.basicConfig(level=app_settings.DEBUG, filename=app_settings.LOG_FILENAME)
+logger = logging.getLogger(__name__)
 
 debug(app_settings.DEBUG)
 connect('deviations')
+
+def dump_email_headers():
+    """ Dump email headers.
+    """
+    email = [h for h in request.headers.values() if '@' in h]
+    if len(email) > 0:
+        logger.info("EMAIL: %s" % email[0])
+
+deviation_app.hooks.add('before_request', dump_email_headers)
 
 app = Bottle()
 app.mount('/v1/deviations', deviation_app)
