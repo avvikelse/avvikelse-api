@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 from datetime import datetime, timedelta
 import logging
-from bottle import Bottle, abort, request, response, json_dumps
+from bottle import Bottle, request, response
 from deviation.models import Deviation
 from deviation import auto_jsonp
 
@@ -96,6 +96,7 @@ def create_deviation():
     deviation.stop_point = request.POST.get('stop_point', None)
     deviation.source = request.POST.get('source', "crowd")
     deviation.created_at = datetime.utcnow()
+    deviation.client_ip = request.remote_addr
 
     try:
         deviation.save()
