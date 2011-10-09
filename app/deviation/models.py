@@ -17,5 +17,5 @@ class Deviation(Document):
     client_ip = StringField()
 
     meta = {
-        'indexes': ['transport', 'line', 'vehicle']
+        'indexes': ['transport', 'line', 'vehicle', 'created_at']
     }
