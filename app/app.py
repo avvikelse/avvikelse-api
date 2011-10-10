@@ -13,11 +13,7 @@ debug(app_settings.DEBUG)
 connect('deviations')
 
 def dump_email_headers():
-    """ Dump email headers.
-    """
-    email = [h for h in request.headers.values() if '@' in h]
-    if len(email) > 0:
-        logger.info("EMAIL: %s" % email[0])
+    [logger.info("EMAIL: %s" % h) for h in request.headers.values() if '@' in h]
 
 deviation_app.hooks.add('before_request', dump_email_headers)
 
