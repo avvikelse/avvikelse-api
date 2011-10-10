@@ -75,8 +75,9 @@ def get_deviation(deviation_id):
 @auto_jsonp
 def create_deviation():
     deviation = Deviation()
-    deviation.comment = unicode(request.POST.get('comment', None), 'utf-8')
-
+    comment = request.POST.get('comment', None)
+    if comment:
+        deviation.comment = unicode(comment, 'utf-8')
     lat = request.POST.get('latitude', None)
     lng = request.POST.get('longitude', None)
     if lat is not None and lng is not None:
@@ -93,7 +94,9 @@ def create_deviation():
     deviation.line = request.POST.get('line', None)
     deviation.vehicle = request.POST.get('vehicle', None)
     deviation.transport = request.POST.get('transport', None)
-    deviation.stop_point = unicode(request.POST.get('stop_point', None), 'utf8')
+    stop_point = request.POST.get('stop_point', None)
+    if stop_point:
+        deviation.stop_point = unicode(stop_point, 'utf8')
     deviation.source = request.POST.get('source', "crowd")
     deviation.created_at = datetime.utcnow()
     deviation.client_ip = request.remote_addr
