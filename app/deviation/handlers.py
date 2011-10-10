@@ -107,6 +107,8 @@ def create_deviation():
         logger.info('Failed to create deviation %s (%s)' % (e, type(e)))
         response.status = 400
         return {'message': 'Could not create deviation.'}
+
+    response.status = 201
     return {
         'id': str(deviation.id)
     }
